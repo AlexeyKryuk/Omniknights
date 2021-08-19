@@ -16175,6 +16175,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dad2fae3d718ca4d801a25a7b587e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _inputChecker: {fileID: 336723727}
+  _playerMovement: {fileID: 8128822548410960971}
   _switchTo: {fileID: 463604091}
   _switchFrom: {fileID: 1684373236150287189}
   _companionTextWindow: {fileID: 1938268519}
@@ -16189,7 +16191,6 @@ MonoBehaviour:
   _playerPhrases:
   - "\u041D\u0443 \u043A\u043E\u043D\u0435\u0447\u043D\u043E \u0436\u0435!"
   - "\u0411\u041B\u042F\u042F\u042F\u042F\u042F\u042F\u042F\u042F\u042F\u042F\u042F\u042F"
-  _inputChecker: {fileID: 336723727}
 --- !u!135 &1227030179
 SphereCollider:
   m_ObjectHideFlags: 0

@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class DialogTrigger : MonoBehaviour
 {
+    [SerializeField] private InputChecker _inputChecker;
+    [SerializeField] private Movement _playerMovement;
     [Header("Камеры")]
     [SerializeField] private Camera _switchTo;
     [SerializeField] private Camera _switchFrom;
@@ -17,7 +19,6 @@ public class DialogTrigger : MonoBehaviour
     [Header("Фразы персонажей")]
     [SerializeField] private List<string> _companionPhrases;
     [SerializeField] private List<string> _playerPhrases;
-    [SerializeField] private InputChecker _inputChecker;
 
     private int _currentPhrase;
 
@@ -38,11 +39,7 @@ public class DialogTrigger : MonoBehaviour
         {
             SwitchCamera();
             NextPhrase();
-
-            if (player.TryGetComponent(out Movement movement))
-            {
-                movement.enabled = false;
-            }
+            _playerMovement.enabled = false;
         }
     }
 
@@ -63,7 +60,16 @@ public class DialogTrigger : MonoBehaviour
     private void NextPhrase()
     {
         if (_currentPhrase >= _playerPhrases.Count + _companionPhrases.Count)
+        {
+            SwitchCamera();
+
+            _playerMovement.enabled = true;
+            _companionTextWindow.gameObject.SetActive(false);
+            _playerTextWindow.gameObject.SetActive(false);
+            gameObject.SetActive(false);
+
             return;
+        }
 
         if (_currentPhrase % 2 == 0)
         {
