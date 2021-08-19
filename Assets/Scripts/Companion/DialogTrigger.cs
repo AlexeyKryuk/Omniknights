@@ -7,6 +7,7 @@ public class DialogTrigger : MonoBehaviour
 {
     [SerializeField] private InputChecker _inputChecker;
     [SerializeField] private Movement _playerMovement;
+    [SerializeField] private Following _companionMovement;
     [Header("Камеры")]
     [SerializeField] private Camera _switchTo;
     [SerializeField] private Camera _switchFrom;
@@ -64,10 +65,12 @@ public class DialogTrigger : MonoBehaviour
             SwitchCamera();
 
             _playerMovement.enabled = true;
+            _companionMovement.enabled = true;
+
             _companionTextWindow.gameObject.SetActive(false);
             _playerTextWindow.gameObject.SetActive(false);
-            gameObject.SetActive(false);
 
+            gameObject.SetActive(false);
             return;
         }
 
