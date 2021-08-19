@@ -17,7 +17,7 @@ public class AttackBehaviour : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            _animator.SetTrigger("Attack");
+            //_animator.SetTrigger("Attack");
 
             StopCoroutine(PlayHitEffects());
             StartCoroutine(PlayHitEffects());
