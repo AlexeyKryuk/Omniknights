@@ -11,7 +11,7 @@ public class Movement : MonoBehaviour
         _animator.SetFloat("Speed", 0);
     }
 
-    void Update () 
+    private void Update () 
 	{
         Vector3 moveVector = (Vector3.left * _joystick.Horizontal + Vector3.back * _joystick.Vertical);
         _animator.SetFloat("Speed", moveVector.magnitude);

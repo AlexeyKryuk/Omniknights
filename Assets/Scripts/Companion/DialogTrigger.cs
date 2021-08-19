@@ -24,7 +24,6 @@ public class DialogTrigger : MonoBehaviour
 
     private void OnEnable()
     {
-        _inputChecker.Clicked += NextPhrase;
         _switchTo.gameObject.SetActive(false);
     }
 
@@ -39,6 +38,7 @@ public class DialogTrigger : MonoBehaviour
         {
             SwitchCamera();
             NextPhrase();
+            _inputChecker.Clicked += NextPhrase;
             _playerMovement.enabled = false;
         }
     }
