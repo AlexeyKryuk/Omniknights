@@ -2,66 +2,80 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class AttackBehaviour : MonoBehaviour
 {
-    [SerializeField] private ParticleSystem[] _hitParticlesLeft;
-    [SerializeField] private ParticleSystem[] _hitParticlesRight;
     [SerializeField] private Animator _animator;
+    [SerializeField] private CharacterController _character;
+    [Space]
+    [SerializeField] private Button _button;
+    [SerializeField] private Joystick _joystick;
+    [Space]
+    [SerializeField] private float _range;
+    [SerializeField] private int _damage;
 
-    private List<Enemy> _enemies = new List<Enemy>();
+    private Enemy _target;
 
-    public UnityAction EnemyKilled;
+    public bool IsAttacking { get; private set; }
+
+    private void OnEnable()
+    {
+        _button.onClick.AddListener(Attack);
+    }
+
+    private void OnDisable()
+    {
+        _button.onClick.RemoveListener(Attack);
+    }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        FindEnemy();
+    }
+
+    private void Attack()
+    {
+        if (!IsAttacking)
         {
-            //_animator.SetTrigger("Attack");
-
-            StopCoroutine(PlayHitEffects());
-            StartCoroutine(PlayHitEffects());
-
-            if (_enemies.Count > 0)
-            {
-                for (int i = 0; i < _enemies.Count; i++)
-                {
-                    _enemies[i].Kill();
-                    EnemyKilled?.Invoke();
-                }
-                _enemies.Clear();
-            }
+            Animate();
         }
     }
 
-    private IEnumerator PlayHitEffects()
+    private void FindEnemy()
     {
-        yield return new WaitForSeconds(0.4f);
-        for (int i = 0; i < _hitParticlesRight.Length; i++)
-        {
-            _hitParticlesRight[i].Play();
-        }
+        RaycastHit hit;
+        Vector3 origin = transform.position + _character.center;
 
-        yield return new WaitForSeconds(0.3f);
-        for (int i = 0; i < _hitParticlesLeft.Length; i++)
+        if (Physics.SphereCast(origin, _character.height / 2, transform.forward, out hit, _range))
         {
-            _hitParticlesLeft[i].Play();
+            if (hit.transform.TryGetComponent(out Enemy enemy))
+                _target = enemy;
+            else
+                _target = null;
+        }
+        else
+        {
+            _target = null;
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void Animate()
     {
-        if (other.TryGetComponent<Enemy>(out Enemy enemy))
-        {
-            _enemies.Add(enemy);
-        }
+        _animator.SetTrigger("Attack");
+        IsAttacking = true;
+        _joystick.IsActive = false;
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnAnimationStop()
     {
-        if (other.TryGetComponent<Enemy>(out Enemy enemy))
-        {            
-            _enemies.Remove(enemy);
-        }
+        IsAttacking = false;
+        _joystick.IsActive = true;
+    }
+
+    private void HitEnemy()
+    {
+        if (_target != null)
+            _target.Damage(_damage);
     }
 }

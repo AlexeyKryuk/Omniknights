@@ -4,18 +4,18 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Fire
-  - DialogCamera
+  - Enemy
+  - Weapon
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Soldiers
+  - Player
   - Water
   - UI
-  - Player
-  - 
-  - 
+  - Ground
+  - Enemy
+  - Terrain
   - 
   - 
   - 

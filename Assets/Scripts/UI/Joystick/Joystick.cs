@@ -14,9 +14,21 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
     public RectTransform background;
     public RectTransform handle;
 
+    public bool IsActive { get; set; }
     public float Horizontal { get { return inputVector.x; } }
     public float Vertical { get { return inputVector.y; } }
     public Vector2 Direction { get { return new Vector2(Horizontal, Vertical); } }
+
+    private void OnEnable()
+    {
+        IsActive = true;
+    }
+
+    private void OnDisable()
+    {
+        inputVector = Vector2.zero; 
+        handle.anchoredPosition = Vector2.zero;
+    }
 
     public virtual void OnDrag(PointerEventData eventData)
     {
@@ -31,6 +43,11 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
     public virtual void OnPointerUp(PointerEventData eventData)
     {
 
+    }
+
+    public void ResetHandle()
+    {
+        
     }
 
     protected void ClampJoystick()

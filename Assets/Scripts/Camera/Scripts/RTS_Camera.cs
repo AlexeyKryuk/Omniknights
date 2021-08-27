@@ -27,7 +27,7 @@ namespace RTS_Cam
         #endregion
 
         private Transform m_Transform; //camera tranform
-        public bool useFixedUpdate = false; //use FixedUpdate() or Update()
+        public bool useFixedUpdate = false; //use FixedUpdate() or LateUpdate()
 
         #region Movement
 
@@ -170,7 +170,7 @@ namespace RTS_Cam
             m_Transform = transform;
         }
 
-        private void Update()
+        private void LateUpdate()
         {
             if (!useFixedUpdate)
                 CameraUpdate();
