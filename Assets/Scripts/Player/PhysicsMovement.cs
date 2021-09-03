@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(Player))]
 public class PhysicsMovement : MonoBehaviour 
 {
     [SerializeField] private Animator _animator;
@@ -8,16 +9,24 @@ public class PhysicsMovement : MonoBehaviour
     [SerializeField] private float _speed = 0.3f;
 
     private CharacterController _characterController;
+    private Player _player;
     private Vector3 _movementVector;
 
     private void Awake()
     {
         _characterController = GetComponent<CharacterController>();
+        _player = GetComponent<Player>();
+    }
+
+    private void OnEnable()
+    {
+        _player.Died += OnPlayerDied;
     }
 
     private void OnDisable()
     {
         _animator.SetFloat("Speed", 0);
+        _player.Died -= OnPlayerDied;
     }
 
     private void Update()
@@ -46,5 +55,10 @@ public class PhysicsMovement : MonoBehaviour
     private void Animate()
     {
         _animator.SetFloat("Speed", _movementVector.magnitude);
+    }
+
+    private void OnPlayerDied()
+    {
+        enabled = false;
     }
 }

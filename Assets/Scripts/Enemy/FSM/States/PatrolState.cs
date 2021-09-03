@@ -2,14 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Patrol : MonoBehaviour
+public class PatrolState : State
 {
     [SerializeField] private float _speed;
     [SerializeField] private float _maxRadiansDelta;
-    [SerializeField] private float _maxMagnitudeDelta;
     [Space]
     [SerializeField] private Waypoints _waypoints;
-    [SerializeField] private Animator _animator;
 
     public bool IsActive { get; private set; } = true;
 
@@ -17,7 +15,17 @@ public class Patrol : MonoBehaviour
 
     private void OnEnable()
     {
+        Target.Died += OnTargetDie;
+
         _target = _waypoints.GetNext();
+    }
+
+    private void OnDisable()
+    {
+        if (Target != null)
+            Target.Died -= OnTargetDie;
+
+        Animate(false);
     }
 
     private void Update()
@@ -44,13 +52,13 @@ public class Patrol : MonoBehaviour
     private void Rotate(Vector3 target)
     {
         Vector3 targetDirection = target - transform.position;
-        Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, _maxRadiansDelta, _maxMagnitudeDelta);
+        Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, _maxRadiansDelta, 0f);
         transform.rotation = Quaternion.LookRotation(newDirection);
     }
 
     private void Animate(bool state)
     {
-        _animator.SetBool("Walk", state);
+        Animator.SetBool(AnimatorEnemyController.Params.Walk, state);
     }
 
     public void Enable() => IsActive = true;

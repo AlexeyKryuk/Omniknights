@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     public float MaxHealth { get; private set; }
     public float MaxDanger { get; private set; }
 
-    public UnityAction HealthFilled;
+    public UnityAction Died;
 
     private void Awake()
     {
@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
     public void ApplyDamage(float amount)
     {
         Health -= amount;
+        _animator.SetTrigger("Damage");
 
         if (Health <= 0)
         {
@@ -41,19 +42,9 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void HealthRecovery()
-    {
-        Health += 0.5f;
-
-        if (Health >= 10)
-        {
-            Health = 10;
-            HealthFilled?.Invoke();
-        }
-    }
-
     private void Die()
     {
         _animator.SetTrigger("Death");
+        Died?.Invoke();
     }
 }

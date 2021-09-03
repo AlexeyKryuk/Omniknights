@@ -163,7 +163,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 1
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -233,7 +233,23 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.5912409
+        functionName: HitPlayer
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 38b9b6213aa5f1d408f062b6f9e36689,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.9733327
+        functionName: OnAnimationStop
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 38b9b6213aa5f1d408f062b6f9e36689,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
